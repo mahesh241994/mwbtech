@@ -65,14 +65,19 @@ class User(AbstractBaseUser, PermissionsMixin):
     @property
     def last_login(self):
         return None
+def validate_Price(price):
+    if price<=0:
+        raise ValidationError("Price must be greater than  0 ")
+def validate_Quantity(quantity):
+    if quantity<=0:
+        raise ValidationError("Quantity must be greater than  0 ")
 
-    
 class Add_Product(models.Model):
     name = models.CharField(max_length=50)
     Category = models.CharField(max_length=12)
     brand = models.CharField(max_length=50)
-    price = models.FloatField()
-    quantity  = models.IntegerField()
+    price = models.FloatField(validators=[validate_Price])
+    quantity  = models.IntegerField(validators=[validate_Quantity])
     Description  = models.TextField(max_length=50)
     class Meta:
         db_table = 'AddProduct'
